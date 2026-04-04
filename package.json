@@ -1,0 +1,21 @@
+{
+  "name": "todo",
+  "version": "1.0.0",
+  "description": "building a todo  application",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "nodemon src/index.js"
+  },
+  "keywords": [
+    "todo",
+    "javascript"
+  ],
+  "author": "Ayush Sharma",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^17.4.0",
+    "express": "^5.2.1",
+    "mongoose": "^9.4.1"
+  }
+}
