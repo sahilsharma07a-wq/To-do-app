@@ -1,20 +1,20 @@
 import { user } from "../models/user.model.js";
 import { Apierror } from "../utils/Apierror.js";
-
-
+import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
 const registeruser = async (req, res) => {
-    // get details from the user
-    // validate the fields
-    // check if user exists or not
-    // create the database. 
+    /* get details from the user
+       validate the fields
+       check if user exists or not
+       create the database.*/ 
     const { name, username, email, password } = req.body;
 
 
-//    for validation
+    //    for validation
     if ([name, username, email, password].some((field) => {
         field?.trim() === ""
     })) {
-        throw new Apierror(400, "All fields are requied");
+        throw new Apierror(400, "All fields are required");
     }
     const existeduser = await user.findOne({
         $or: [{ username }, { email }]
@@ -24,17 +24,19 @@ const registeruser = async (req, res) => {
         throw new Apierror(100, "user already exists");
     }
 
+    const hashedPassword=await bcrypt.hash(password,10);
+
     const createdUser = await user.create({
         name: name,
         username: username.toLowerCase(),
         email: email,
-        password: password
+        password: hashedPassword,
     })
     if (!createdUser) {
         throw new Apierror(400, "user not created");
     }
     else {
-        console.log("User created successfully");
+        res.status(200).json({ "message": "User created successfully" })
     }
 }
 
@@ -43,15 +45,27 @@ const loginuser = async (req, res) => {
     // match the details
     const { username, password } = req.body;
 
-    const User = await user.findOne({ username,password });
+    const User = await user.findOne({ username });
     if (!User) {
         throw new Apierror(400, "Username is not valid");
     }
-    // console.log(User.password);
-    if (password === User.password) {
+
+    const decodedPassword=await bcrypt.compare(password,User.password);
+    // return a boolean value 
+    if (decodedPassword) {
+        // Generate JWT token
+        const token = jwt.sign(
+            { id: User._id },
+            process.env.JWT_SECRET,
+            { expiresIn: process.env.JWT_SECRET_EXPIRY}
+        );
+        
         res.status(200).json({
-            "message": "login successful"
-        })
+            message: "login successful",
+            token
+        });
+    } else {
+        throw new Apierror(400, "password is not matching");
     }
 
 }

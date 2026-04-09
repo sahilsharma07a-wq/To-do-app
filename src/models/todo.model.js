@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
-const todoSchema=new mongoose.model({
-    contnent:{
+const todoSchema=new mongoose.Schema({
+    content:{
         type:String,
         required:true,
     },
