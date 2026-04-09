@@ -7,7 +7,7 @@ const authMiddleware = (req, res, next) => {
      if (!authHeader || !authHeader.startsWith("Bearer ")) {
         throw new Apierror(401, "No token provided");
     }
-    // console.log(authHeader); 
+    
     const token = authHeader.split(" ")[1];
     if(!token){
         throw new Apierror(401,"No token found");

@@ -22,4 +22,35 @@ const todoData = async (req, res) => {
     }
 };
 
-export {todoData};
+const updateData = async (req, res) => {
+    try {
+        const taskId = req.params.id;
+        const userid = req.user.id;
+        if(!req.body.content||!req.body.description){
+            throw new Apierror(400,"Nothing to update");
+        }
+        const updateTask = await todo.findOneAndUpdate(
+            {
+                _id: taskId,
+                createdBy: userid,
+            },
+            {
+                content: req.body.content,
+                description: req.body.description
+            },
+            { new: true,runValidators:true}
+        )
+        if (!updateTask) {
+            throw new Apierror(400, "Task is not updated");
+        }
+        else {
+            res.status(200).json({ "msg": "Task Updated" });
+        }
+    } catch (error) {
+        res.status(500).json({ "msg": error.message });
+    }
+}
+export {
+    todoData,
+    updateData
+};
