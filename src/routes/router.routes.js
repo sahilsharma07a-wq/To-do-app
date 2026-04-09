@@ -3,7 +3,7 @@ import {
     registeruser, loginuser
 } from "../controllers/user.controller.js";
 import {
-    todoData, updateData
+    todoData, updateData,deleteData
 }
     from "../controllers/todo.controller.js";
 import authMiddleware from "../middleware/authMiddleware.js";
@@ -14,4 +14,7 @@ router.route("/login").post(loginuser);
 // protected routes
 router.route("/todos").post(authMiddleware, todoData);
 router.route("/update/:id").put(authMiddleware, updateData);
+router.route("/delete/:id").post(authMiddleware,deleteData);
+
+
 export default router;
