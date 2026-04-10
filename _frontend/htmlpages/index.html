@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Todo App Dashboard</title>
+	<link rel="stylesheet" href="../stylepages/style.css">
+</head>
+<body>
+	<nav class="navbar">
+		<div class="navbar-logo">TodoApp</div>
+		<ul class="navbar-links">
+			<li><a href="#dashboard">Dashboard</a></li>
+			<li><a href="#todos">Todos</a></li>
+			<li><a href="signuppage.html">Account</a></li>
+		</ul>
+	</nav>
+	<main class="dashboard-container">
+		<section class="dashboard-summary">
+			<h1>Welcome to your Dashboard</h1>
+			<div class="summary-cards">
+				<div class="card" id="total-tasks">
+					<h2>Total Tasks</h2>
+					<span id="totalTasksCount">0</span>
+				</div>
+				<div class="card" id="completed-tasks">
+					<h2>Completed</h2>
+					<span id="completedTasksCount">0</span>
+				</div>
+				<div class="card" id="pending-tasks">
+					<h2>Pending</h2>
+					<span id="pendingTasksCount">0</span>
+				</div>
+			</div>
+		</section>
+		<section class="dashboard-todos" id="todos">
+			<h2>Your Todos</h2>
+			<ul id="todoList">
+				 Todo items will be rendered here 
+			</ul> 
+			<form id="addTodoForm" method="post">
+				<input type="text" id="todoContent" placeholder="Task title" required>
+				<input type="text" id="todoDescription" placeholder="Description" required>
+				<button type="submit" id="submit">Add Todo</button>
+			</form>
+		</section>
+	</main>
+	<script src="../scriptpages/script.js"></script>
+</body>
+</html>

@@ -2,11 +2,12 @@ import { user } from "../models/user.model.js";
 import { Apierror } from "../utils/Apierror.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import authMiddleware from "../middleware/authMiddleware.js";
 const registeruser = async (req, res) => {
     /* get details from the user
        validate the fields
        check if user exists or not
-       create the database.*/ 
+       create the database.*/
     const { name, username, email, password } = req.body;
 
 
@@ -24,7 +25,7 @@ const registeruser = async (req, res) => {
         throw new Apierror(100, "user already exists");
     }
 
-    const hashedPassword=await bcrypt.hash(password,10);
+    const hashedPassword = await bcrypt.hash(password, 10);
 
     const createdUser = await user.create({
         name: name,
@@ -50,16 +51,16 @@ const loginuser = async (req, res) => {
         throw new Apierror(400, "Username is not valid");
     }
 
-    const decodedPassword=await bcrypt.compare(password,User.password);
+    const decodedPassword = await bcrypt.compare(password, User.password);
     // return a boolean value 
     if (decodedPassword) {
         // Generate JWT token
         const token = jwt.sign(
             { id: User._id },
             process.env.JWT_SECRET,
-            { expiresIn: process.env.JWT_SECRET_EXPIRY}
+            { expiresIn: process.env.JWT_SECRET_EXPIRY }
         );
-        
+
         res.status(200).json({
             message: "login successful",
             token
@@ -67,9 +68,21 @@ const loginuser = async (req, res) => {
     } else {
         throw new Apierror(400, "password is not matching");
     }
-
+}
+const logoutuser = async (req, res) => {
+    const userid=req.user.id;
+    const logout=await user.findOne({
+        _id:userid,
+    })
+    if(!logout){
+        throw new Apierror(400,"logout failed");
+    }
+    else{
+        res.status(200).json({"msg":"User loggedout successfully"});
+    }
 }
 export {
     registeruser,
-    loginuser
+    loginuser,
+    logoutuser
 };
