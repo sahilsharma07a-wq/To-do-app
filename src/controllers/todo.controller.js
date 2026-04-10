@@ -33,7 +33,7 @@ const updateData = async (req, res) => {
             /* filter the data
                give the new data to update.
                (new) returns new document default old data.
-               (runValidators) validates the schema condition after updation.*/ 
+               (runValidators) validates the schema condition after updation.*/
             {
                 _id: taskId,
                 createdBy: userid,
@@ -57,24 +57,46 @@ const updateData = async (req, res) => {
 
 const deleteData = async (req, res) => {
     try {
-        const taskId=req.params.id;  //id of the tasks from the database
-        const userid=req.user.id;   //id of the user from the database
-        const deleteTask=await todo.findOneAndDelete({
-            _id:taskId,
-            createdBy:userid,
+        const taskId = req.params.id;  //id of the tasks from the database
+        const userid = req.user.id;   //id of the user from the database
+        const deleteTask = await todo.findOneAndDelete({
+            _id: taskId,
+            createdBy: userid,
         })
-        if(!deleteTask){
-            throw new Apierror("400","Task not deleted");
+        if (!deleteTask) {
+            throw new Apierror("400", "Task not deleted");
         }
-        else{
-            res.status(200).json({"msg":"Task deleted"});
+        else {
+            res.status(200).json({ "msg": "Task deleted" });
         }
     } catch (error) {
-        res.status(400).json({"msg":error.message});
+        res.status(400).json({ "msg": error.message });
+    }
+}
+
+const completionTask = async (req, res) => {
+    const taskId=req.params.id;
+    const userid=req.user.id;
+    const completedTask=await todo.findOneAndUpdate(
+        {
+            _id:taskId,
+            createdBy:userid,
+        },
+        {
+            completed:true,
+        },
+        {new:true,runvalidators:true}
+    )
+    if(!completedTask){
+        throw new Apierror(400,"Task not completed");
+    }
+    else{
+        res.status(200).json({"msg":"Task completed"});
     }
 }
 export {
     todoData,
     updateData,
-    deleteData
+    deleteData,
+    completionTask
 };
