@@ -63,7 +63,12 @@ const loginuser = async (req, res) => {
 
         res.status(200).json({
             message: "login successful",
-            token
+            token,
+            user:{
+                username:User.username,
+                email:User.email,
+                name:User.name,
+            }
         });
     } else {
         throw new Apierror(400, "password is not matching");

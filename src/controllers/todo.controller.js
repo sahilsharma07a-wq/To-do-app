@@ -94,9 +94,24 @@ const completionTask = async (req, res) => {
         res.status(200).json({"msg":"Task completed"});
     }
 }
+
+const getTodos = async (req, res) => {
+    try {
+        const todos = await todo.find({
+            createdBy: req.user.id
+        });
+
+        res.status(200).json({ todos });
+
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ msg: error.message });
+    }
+};
 export {
     todoData,
     updateData,
     deleteData,
-    completionTask
+    completionTask,
+    getTodos
 };

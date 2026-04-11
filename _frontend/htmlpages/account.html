@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Account section</title>
+    <style>
+        .account-container {
+    max-width: 400px;
+    margin: 50px auto;
+    padding: 20px;
+    background: #f4f4f4;
+    border-radius: 10px;
+    text-align: center;
+}
+
+.account-card {
+    background: white;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+.account-card p {
+    margin: 10px 0;
+    font-size: 16px;
+}
+
+button {
+    padding: 10px 20px;
+    border: none;
+    background: crimson;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+}
+    </style>
+</head>
+<body>
+    <div class="account-container">
+    <h2>Account Details</h2>
+
+    <div class="account-card">
+        <p><strong>Name:</strong> <span id="userName"></span></p>
+        <p><strong>Username:</strong> <span id="userUsername"></span></p>
+        <p><strong>Email:</strong> <span id="userEmail"></span></p>
+    </div>
+
+    <button onclick="logout()">Logout</button>
+</div>
+</body>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="../scriptpages/accountscript.js"></script>
+</html>

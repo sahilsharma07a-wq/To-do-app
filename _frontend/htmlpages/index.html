@@ -12,7 +12,7 @@
 		<ul class="navbar-links">
 			<li><a href="#dashboard">Dashboard</a></li>
 			<li><a href="#todos">Todos</a></li>
-			<li><a href="signuppage.html">Account</a></li>
+			<li><a href="account.html">Account</a></li>
 		</ul>
 	</nav>
 	<main class="dashboard-container">
@@ -38,13 +38,14 @@
 			<ul id="todoList">
 				 Todo items will be rendered here 
 			</ul> 
-			<form id="addTodoForm" method="post">
+			<form id="addTodoForm">
 				<input type="text" id="todoContent" placeholder="Task title" required>
 				<input type="text" id="todoDescription" placeholder="Description" required>
 				<button type="submit" id="submit">Add Todo</button>
 			</form>
 		</section>
 	</main>
+	<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 	<script src="../scriptpages/script.js"></script>
 </body>
 </html>
