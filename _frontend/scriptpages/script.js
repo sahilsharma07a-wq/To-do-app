@@ -26,8 +26,8 @@ async function fetchTodos() {
     // You may need a GET endpoint for fetching todos. Assuming /users/todos GET returns user's todos
     try {
         const res = await axios.get(`${API_BASE}/todos`, {
-            headers: { 
-                Authorization: `Bearer ${token}` 
+            headers: {
+                Authorization: `Bearer ${token}`
             }
         });
         todos = res.data.todos || [];
@@ -41,7 +41,7 @@ async function fetchTodos() {
 
 function renderTodos() {
     const todoList = document.getElementById('todoList');
-    if(!todoList) return;
+    if (!todoList) return;
     todoList.innerHTML = '';
     todos.forEach((todo, idx) => {
         const li = document.createElement('li');
@@ -53,6 +53,7 @@ function renderTodos() {
             <div>
                 <input type="checkbox" ${todo.completed ? 'checked' : ''} data-id="${todo._id}" class="complete-checkbox">
                 <button class="delete-btn" data-id="${todo._id}">Delete</button>
+                <button class="update-btn" data-id="${todo._id}">update</button>
             </div>
         `;
         todoList.appendChild(li);
@@ -72,9 +73,15 @@ function renderTodos() {
         });
     });
 
+    document.querySelectorAll('.update-btn').forEach(btn => {
+    btn.addEventListener('click', async function () {
+        const id = this.getAttribute('data-id');
+        await updateTodo(id);
+    });
+});
+
     updateSummary();
 }
-
 
 function setupAddTodoForm() {
     const addtodoform = document.getElementById('addTodoForm');
@@ -90,7 +97,7 @@ function setupAddTodoForm() {
     });
 }
 
-// console.log("token",getToken())
+
 function updateSummary() {
     if (document.getElementById('totalTasksCount'))
         document.getElementById('totalTasksCount').textContent = todos.length;
@@ -127,6 +134,23 @@ async function deleteTodo(id) {
     }
 }
 
+async function updateTodo(id) {
+    const token = getToken();
+    if (!token) return;
+    const content = prompt("Enter new content")
+    const description = prompt("Enter new description");
+    if(!content||!description) return;
+    try {
+        await axios.put(`${API_BASE}/update/${id}`,
+            { content, description }, {
+            headers: { Authorization: `Bearer ${token}` }
+        })
+        await fetchTodos();
+    } catch (error) {
+        alert("failed to update tasks");
+    }
+}
+
 async function completeTodo(id) {
     const token = getToken();
     if (!token) return;
@@ -145,7 +169,7 @@ window.onload = function () {
     setupAddTodoForm();
     if (getToken()) {
         fetchTodos();
-    } 
+    }
 };
 
 const loginForm = document.getElementById("loginForm");
@@ -179,7 +203,7 @@ async function signup() {
                 password: password,
                 name: Name,
             });
-            if (response.status>=200 &&response.status<=299) {
+            if (response.status >= 200 && response.status <= 299) {
                 alert("Signup successful");
                 window.location.href = "login.html";
             }
@@ -203,9 +227,8 @@ async function login() {
         const { token, user } = response.data;
         console.log(response.data)
         localStorage.setItem("token", token);
-        localStorage.setItem("user", JSON.stringify(user)); 
+        localStorage.setItem("user", JSON.stringify(user));
 
-        alert("Login successful");
         window.location.href = "index.html";
 
     } catch (error) {

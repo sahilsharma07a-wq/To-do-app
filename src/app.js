@@ -1,7 +1,10 @@
 import express from "express";
-import cors from "cors";
 const app=express();
-
+import cors from "cors"
+app.use(cors({
+    origin:"http://127.0.0.1:3000",
+    credentials:true,
+}));
 // middlewares for parsing the data from the frontend
 // app.use(express.static('_frontend'));
 app.use(express.json());

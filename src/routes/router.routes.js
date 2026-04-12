@@ -13,8 +13,8 @@ router.route("/register").post(registeruser);
 router.route("/login").post(loginuser);
 // protected routes
 router.route("/logout/:id").post(authMiddleware,logoutuser);
-router.route("/todos").post(authMiddleware, todoData);
-router.route("/todos").get(authMiddleware, getTodos); 
+router.route("/todos").post(authMiddleware, todoData);//for creation of todods
+router.route("/todos").get(authMiddleware, getTodos); //for fetch todos
 router.route("/update/:id").put(authMiddleware, updateData);
 router.route("/delete/:id").post(authMiddleware, deleteData);
 router.route("/complete/:id").post(authMiddleware, completionTask);
