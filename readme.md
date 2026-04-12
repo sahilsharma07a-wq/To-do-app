@@ -62,5 +62,3 @@ A full-stack Todo application built using **Node.js, Express, MongoDB** for back
 ## ⭐ If you like this project
 
 Give it a star ⭐ on GitHub
- 
- 
